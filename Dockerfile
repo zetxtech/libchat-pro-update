@@ -7,9 +7,9 @@ WORKDIR /app
 COPY keys/public.pem /tmp/public.pem
 
 # Install necessary tools
-RUN apt-get update && apt-get install -y \
-    rename \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache \
+    util-linux \
+    && rm -rf /var/cache/apk/*
 
 # Replace the public key in all files
 RUN find ./projects/app/.next -type f -exec sh -c '\
@@ -25,8 +25,6 @@ RUN cd ./projects/app/.next && \
     find . -depth -name "*fastgpt*" -execdir bash -c 'mv "$1" "${1//fastgpt/libchat}"' bash {} \; && \
     find . -depth -name "*FastGPT*" -execdir bash -c 'mv "$1" "${1//FastGPT/LibChat}"' bash {} \; && \
     find . -depth -name "*FASTGPT*" -execdir bash -c 'mv "$1" "${1//FASTGPT/LIBCHAT}"' bash {} \;
-
-
 
 # Start
 ENV serverPath=./projects/app/server.js
