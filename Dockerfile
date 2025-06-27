@@ -1,5 +1,6 @@
 ARG VERSION
-FROM ghcr.io/labring/fastgpt-pro:${VERSION}
+ARG BASE_IMAGE=fastgpt-pro
+FROM ghcr.io/labring/${BASE_IMAGE}:${VERSION}
 
 WORKDIR /app
 
@@ -25,9 +26,9 @@ RUN find ./projects/app/.next -type f -exec sed -i 's/fastgpt/libchat/g; s/FastG
 
 # Rename files and directories containing the patterns
 RUN cd ./projects/app/.next && \
-    find . -depth -name "*fastgpt*" -execdir bash -c 'mv "$1" "${1//fastgpt/libchat}"' bash {} \; && \
-    find . -depth -name "*FastGPT*" -execdir bash -c 'mv "$1" "${1//FastGPT/LibChat}"' bash {} \; && \
-    find . -depth -name "*FASTGPT*" -execdir bash -c 'mv "$1" "${1//FASTGPT/LIBCHAT}"' bash {} \;
+    find . -depth -name "*fastgpt*" -exec bash -c 'mv "$0" "${0//fastgpt/libchat}"' {} \; && \
+    find . -depth -name "*FastGPT*" -exec bash -c 'mv "$0" "${0//FastGPT/LibChat}"' {} \; && \
+    find . -depth -name "*FASTGPT*" -exec bash -c 'mv "$0" "${0//FASTGPT/LIBCHAT}"' {} \;
 
 # Start
 USER nextjs
