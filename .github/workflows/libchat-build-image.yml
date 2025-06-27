@@ -21,12 +21,6 @@ jobs:
           - repo: libchat-pro
             base_url: ""
             base_image: fastgpt-pro
-          - repo: libchat-pro-sub-route
-            base_url: "/fastai"
-            base_image: fastgpt-pro-sub-route
-          - repo: libchat-pro-sub-route-gchat-admin
-            base_url: "/gchat"
-            base_image: fastgpt-pro-sub-route-gchat-admin
         archs:
           - arch: amd64
           - arch: arm64
