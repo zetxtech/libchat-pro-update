@@ -6,6 +6,9 @@ WORKDIR /app
 # Copy the public key
 COPY keys/public.pem /tmp/public.pem
 
+# Switch to root for package installation
+USER root
+
 # Install necessary tools
 RUN apk add --no-cache \
     util-linux \
@@ -27,5 +30,6 @@ RUN cd ./projects/app/.next && \
     find . -depth -name "*FASTGPT*" -execdir bash -c 'mv "$1" "${1//FASTGPT/LIBCHAT}"' bash {} \;
 
 # Start
+USER nextjs
 ENV serverPath=./projects/app/server.js
 ENTRYPOINT ["sh","-c","node ${serverPath}"]
