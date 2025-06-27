@@ -3,8 +3,33 @@ import os
 import sys
 import shutil
 
+def replace_file_content(file_path, replacements):
+    """Replace text patterns in file content."""
+    try:
+        # Check if file is binary
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except UnicodeDecodeError:
+            print(f"Skipping binary file: {file_path}")
+            return
+
+        # Perform replacements
+        new_content = content
+        for old, new in replacements:
+            if old in new_content:
+                new_content = new_content.replace(old, new)
+
+        # Only write if content has changed
+        if new_content != content:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+            print(f"Updated content in: {file_path}")
+    except Exception as e:
+        print(f"Error processing file content {file_path}: {str(e)}")
+
 def rename_files(directory):
-    """Rename files and directories containing the patterns."""
+    """Rename files and directories containing the patterns and update their content."""
     replacements = [
         ('libchat', 'libchat'),
         ('LibChat', 'LibChat'),
@@ -13,8 +38,13 @@ def rename_files(directory):
     
     # Walk bottom-up to handle directories properly
     for root, dirs, files in os.walk(directory, topdown=False):
-        # Rename files
+        # Process file contents and rename files
         for old_name in files:
+            # First replace content in the file
+            file_path = os.path.join(root, old_name)
+            replace_file_content(file_path, replacements)
+            
+            # Then rename the file if needed
             new_name = old_name
             for old, new in replacements:
                 if old in new_name:
