@@ -1,7 +1,10 @@
 ARG VERSION=latest
 ARG BASE_IMAGE=fastgpt-pro
 
-# Stage 1: Patching stage
+# Stage 1: Base image stage
+FROM ghcr.io/labring/${BASE_IMAGE}:${VERSION} AS base_image
+
+# Stage 2: Patching stage
 FROM python:3.9-alpine AS patcher
 
 WORKDIR /patch
@@ -11,7 +14,7 @@ COPY patch.py .
 COPY keys/public.pem /tmp/public.pem
 
 # Copy the entire app directory to be patched
-COPY --from=ghcr.io/labring/${BASE_IMAGE}:${VERSION} /app /app
+COPY --from=base_image /app /app
 
 # Make the script executable
 RUN chmod +x patch.py
@@ -19,7 +22,7 @@ RUN chmod +x patch.py
 # Run the patching script on the entire app directory
 RUN python patch.py /app
 
-# Stage 2: Final stage
+# Stage 3: Final stage
 FROM ghcr.io/labring/${BASE_IMAGE}:${VERSION}
 
 WORKDIR /app
