@@ -3,6 +3,7 @@ import os
 import re
 import sys
 import mimetypes
+import shutil
 
 def is_binary_file(file_path):
     """Check if a file is binary."""
@@ -81,7 +82,7 @@ def rename_files(directory):
                 old_path = os.path.join(root, old_name)
                 new_path = os.path.join(root, new_name)
                 try:
-                    os.rename(old_path, new_path)
+                    shutil.move(old_path, new_path)
                     print(f"Renamed file: {old_path} -> {new_path}")
                 except Exception as e:
                     print(f"Error renaming {old_path}: {str(e)}")
@@ -97,7 +98,7 @@ def rename_files(directory):
                 old_path = os.path.join(root, old_name)
                 new_path = os.path.join(root, new_name)
                 try:
-                    os.rename(old_path, new_path)
+                    shutil.move(old_path, new_path)
                     print(f"Renamed directory: {old_path} -> {new_path}")
                 except Exception as e:
                     print(f"Error renaming {old_path}: {str(e)}")
