@@ -70,7 +70,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: projects/app/Dockerfile
+          file: Dockerfile
           platforms: linux/${{ matrix.archs.arch }}
           build-args: |
             VERSION=${{ inputs.version }}
