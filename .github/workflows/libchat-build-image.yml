@@ -102,8 +102,6 @@ jobs:
       matrix:
         sub_routes:
           - repo: libchat-pro
-          - repo: libchat-pro-sub-route
-          - repo: libchat-pro-sub-route-gchat-admin
     runs-on: ubuntu-24.04
     steps:
       - name: Login to GitHub Container Registry
