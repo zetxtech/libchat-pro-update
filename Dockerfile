@@ -10,17 +10,16 @@ FROM python:3.9-alpine AS patcher
 WORKDIR /patch
 
 # Copy the patching script and public key
-COPY patch.py .
+COPY rename_files.py .
+COPY replace_key.py .
 COPY keys/public.pem /tmp/public.pem
 
 # Copy the entire app directory to be patched
 COPY --from=base_image /app /app
 
-# Make the script executable
-RUN chmod +x patch.py
-
 # Run the patching script on the entire app directory
-RUN python patch.py /app
+RUN python replace_key.py /app/projects/app/.next
+RUN python rename_files.py /app
 
 # Stage 3: Final stage
 FROM ghcr.io/labring/${BASE_IMAGE}:${VERSION}
