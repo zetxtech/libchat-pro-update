@@ -1,3 +1,4 @@
+ARG VERSION
 FROM ghcr.io/labring/fastgpt-pro:${VERSION}
 
 WORKDIR /app
