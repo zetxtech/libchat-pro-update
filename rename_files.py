@@ -31,9 +31,9 @@ def replace_file_content(file_path, replacements):
 def rename_files(directory):
     """Rename files and directories containing the patterns and update their content."""
     replacements = [
-        ('libchat', 'libchat'),
-        ('LibChat', 'LibChat'),
-        ('LIBCHAT', 'LIBCHAT')
+        ('fastgpt', 'libchat'),
+        ('FastGPT', 'LibChat'),
+        ('FASTGPT', 'LIBCHAT')
     ]
     
     # Walk bottom-up to handle directories properly
