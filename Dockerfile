@@ -1,4 +1,4 @@
-ARG VERSION
+ARG VERSION=latest
 ARG BASE_IMAGE=fastgpt-pro
 FROM ghcr.io/labring/${BASE_IMAGE}:${VERSION}
 
